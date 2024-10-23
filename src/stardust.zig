@@ -9,14 +9,14 @@ pub fn sd_init_log(log_level: sd_log_level, allocator: ?std.mem.Allocator) !void
         alloc = a;
     } else {
         gpa = std.heap.GeneralPurposeAllocator(.{}){};
-        alloc = gpa.allocator();
+        alloc = gpa.?.allocator();
     }
     GLOBAL_LOG_LEVEL = log_level;
 }
 
 pub fn sd_deinit_log() void {
-    if (gpa) {
-        _ = gpa.deinit();
+    if (gpa) |g| {
+        _ = g.deinit();
     }
 }
 
