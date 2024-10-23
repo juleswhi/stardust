@@ -1,17 +1,21 @@
 const std = @import("std");
 
-pub var gpa: ?std.heap.GeneralPurposeAllocator(.{}) = null;
+var gpa: ?std.heap.GeneralPurposeAllocator(.{}) = null;
 var alloc: std.mem.Allocator = undefined;
 var GLOBAL_LOG_LEVEL: sd_log_level = .debug;
 
-pub fn sd_init_log(log_level: sd_log_level, allocator: ?std.mem.Allocator) !void {
+pub fn sd_init_log(log_level: ?sd_log_level, allocator: ?std.mem.Allocator) !void {
     if (allocator) |a| {
         alloc = a;
     } else {
         gpa = std.heap.GeneralPurposeAllocator(.{}){};
         alloc = gpa.?.allocator();
     }
-    GLOBAL_LOG_LEVEL = log_level;
+    if(log_level) |l| {
+        GLOBAL_LOG_LEVEL = l;
+    } else {
+        GLOBAL_LOG_LEVEL = .debug;
+    }
 }
 
 pub fn sd_deinit_log() void {
