@@ -1,6 +1,6 @@
 <div align="center">
 
-# Stardust :star
+# Stardust 🌠
 
 Beautiful Zig Logging Library
 
