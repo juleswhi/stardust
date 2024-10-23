@@ -1,6 +1,6 @@
 const std = @import("std");
 
-var gpa: ?std.heap.GeneralPurposeAllocator(.{}) = null;
+pub var gpa: ?std.heap.GeneralPurposeAllocator(.{}) = null;
 var alloc: std.mem.Allocator = undefined;
 var GLOBAL_LOG_LEVEL: sd_log_level = .debug;
 
