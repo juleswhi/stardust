@@ -1,6 +1,6 @@
 const std = @import("std");
 
-var gpa: std.heap.GeneralPurposeAllocator(.{}) = undefined;
+var gpa: ?std.heap.GeneralPurposeAllocator(.{}) = null;
 var alloc: std.mem.Allocator = undefined;
 var GLOBAL_LOG_LEVEL: sd_log_level = .debug;
 
@@ -15,7 +15,7 @@ pub fn sd_init_log(log_level: sd_log_level, allocator: ?std.mem.Allocator) !void
 }
 
 pub fn sd_deinit_log() void {
-    if (gpa != undefined) {
+    if (gpa) {
         _ = gpa.deinit();
     }
 }
