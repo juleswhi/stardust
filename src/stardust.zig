@@ -15,8 +15,8 @@ pub fn sd_init_log(log_level: sd_log_level, allocator: ?std.mem.Allocator) !void
 }
 
 pub fn sd_deinit_log() void {
-    if (gpa) |g| {
-        _ = g.deinit();
+    if (gpa != undefined) {
+        _ = gpa.deinit();
     }
 }
 
