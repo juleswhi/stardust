@@ -1,6 +1,6 @@
 <div align="center">
 
-# Stardust
+# Stardust :star
 
 Beautiful Zig Logging Library
 
@@ -8,7 +8,7 @@ Beautiful Zig Logging Library
 
 ## Install
 
-To add *Stardust* to your zig project run
+To add **Stardust** to your zig project run
 
 ```zig
 
@@ -16,7 +16,7 @@ To add *Stardust* to your zig project run
 
 ## Usage
 
-Include *Stardust* in your project like this:
+Include **Stardust** in your project like this:
 
 ```zig
 
