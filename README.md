@@ -39,18 +39,9 @@ Initiate the logging system
 try stardust.sd_init_log(null, null);
 ```
 
-__It's recommended to import the log function itself__
-
-```zig
-const log = @import("stardust").sdlog;
-```
-
 To log some data, do the following:
-
-This will log all values, separated by a space.
-
-`.debug` signifies the level, this can one of, `info`, `debug`, `err`, `fatal`
 
 ```zig
 stardust.sdlog(@src(), .{"Hello, World!", 69, .debug});
+// Hello, World! 69
 ```
