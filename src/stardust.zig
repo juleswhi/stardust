@@ -56,8 +56,12 @@ pub fn sdlog(source: std.builtin.SourceLocation, args: anytype) void {
         const field_value = @field(args, field.name);
         const field_type = @TypeOf(field_value);
         if (isZigString(field_type)) {
-            string.appendSlice(field_value) catch {};
-            string.appendSlice(" ") catch {};
+            string.appendSlice(field_value) catch |e| {
+                std.debug.panic("Could not append slice: {}", .{e});
+            };
+            string.appendSlice(" ") catch |e| {
+                std.debug.panic("Could not append slice: {}", .{e});
+            };
         } else if (isZigInt(field_type)) {
             var buf: [20]u8 = undefined;
             _ = std.fmt.bufPrint(&buf, "{}", .{field_value}) catch "";
