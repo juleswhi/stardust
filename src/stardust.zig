@@ -15,7 +15,8 @@ pub fn sd_init_log(log_level: sd_log_level, allocator: ?std.mem.Allocator) !void
 }
 
 pub fn sd_deinit_log() void {
-    gpa.?.deinit();
+    const deinit_status = gpa.?.deinit();
+    if (deinit_status == .leak) std.debug.panic("Could not properly deinit general purpose allocator", .{});
 }
 
 pub const sd_log_level = enum(u8) {
