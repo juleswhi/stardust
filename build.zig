@@ -5,7 +5,7 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     _ = b.addModule("stardust", .{
-        .root_source_file = b.path("src/lib.zig"),
+        .root_source_file = b.path("src/stardust.zig"),
         .target = target,
         .optimize = optimize,
     });
