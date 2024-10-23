@@ -10,7 +10,7 @@ Beautiful Zig Logging Library
 
 To add **Stardust** to your `build.zig.zon`
 
-```zig
+```sh
 zig fetch --save git+https://github.com/juleswhi/stardust.git#main
 ```
 
