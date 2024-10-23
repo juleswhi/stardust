@@ -10,7 +10,6 @@ pub fn sd_init_log(log_level: sd_log_level, allocator: ?std.mem.Allocator) !void
     } else {
         alloc = gpa.allocator();
     }
-    alloc = gpa.allocator();
     GLOBAL_LOG_LEVEL = log_level;
 }
 
