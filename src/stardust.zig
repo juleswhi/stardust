@@ -30,6 +30,7 @@ var SD_CONFIG = _sd_global_config{ .alloc = null, .level = .info };
 const _sd_global_config = struct {
     alloc: ?std.mem.Allocator,
     level: sd_log_level,
+    sdout: std.io.AnyWriter,
 };
 
 // Setup Stardust allocator and other configuration
@@ -41,6 +42,7 @@ pub fn sd_setup(args: struct {
         SD_CONFIG.level = l;
     }
     SD_CONFIG.alloc = args.alloc;
+    SD_CONFIG.sdout = std.io.getStdOut().writer();
 }
 
 pub fn log(args: anytype) void {
@@ -85,13 +87,46 @@ pub fn log(args: anytype) void {
         }
     }
 
+
+    if(string.items.len == 0) {
+        string.appendSlice("!");
+    }
+
     const final_string = string.toOwnedSlice() catch "";
 
     if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {
-        std.debug.print("\x1b[38;5;13m{s}\x1b[38;5;255m:\x1b[33m{s}\x1b[38;5;255m:\x1b[38;5;63m{}\x1b[38;5;255m \x1b[38;5;255m:: {s}\x1b[3m{s}\x1b[38;5;255m\x1b[0m :: {s}\n", .{
-            source.file, source.fn_name, source.line, level.colour(), level.to_string(), final_string,
-        });
     }
+}
+
+// HH:MM DEBU msg
+// --> File Line Column
+// | More
+// | Information
+// | Goes
+// | Here
+
+const log_message = struct {
+    time: []const u8,
+    level: []const u8,
+    message: []const u8,
+    source_file: ?[]const u8,
+    source_fn: ?[]const u8,
+    source_line: ?[]const u8,
+    source_column: ?[]const u8,
+    description: ?[]const u8,
+};
+
+const _SD_COL_LIGHT_PINK = "\x1b[38;5;13m";
+const _SD_COL_WHITE = "\x1b[38;5;255m";
+const _SD_COL_GOLD = "\x1b[33m";
+const _SD_COL_BLUE = "\x1b[38;5;63m";
+const _SD_EFF_ITALICS = "\x1b[3m";
+const _SD_EFF_NO_ITALICS = "\x1b[0m";
+const _SD_EFF_ENBOLDEN = "\x1b[1m";
+const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
+
+fn _sd_print(msg: log_message) void {
+    SD_CONFIG.sdout.print("{s}Example{s}", .{_SD_EFF_ITALICS, _SD_EFF_NO_ITALICS});
 }
 
 inline fn isZigInt(comptime T: type) bool {
