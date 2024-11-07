@@ -39,19 +39,13 @@ pub fn sd_setup(args: struct {
 }) void {
     if (args.level) |l| {
         SD_CONFIG.level = l;
-    } else {
-        SD_CONFIG.level = switch (std.builtin.OptimizeMode) {
-            .Debug => sd_log_level.debug,
-            .ReleaseSafe => sd_log_level.info,
-            else => sd_log_level.err,
-        };
     }
     SD_CONFIG.alloc = args.alloc;
 }
 
 pub fn log(args: anytype) void {
-    if(SD_CONFIG.alloc == null) {
-        std.debug.print("Stardust has not been initialised. Please call sd_setup()");
+    if (SD_CONFIG.alloc == null) {
+        std.debug.print("Stardust has not been initialised. Please call sd_setup()", .{});
     }
     var string = std.ArrayList(u8).init(SD_CONFIG.alloc.?);
     defer string.deinit();
