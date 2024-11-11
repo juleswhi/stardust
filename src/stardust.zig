@@ -103,7 +103,7 @@ pub fn log(args: anytype) void {
     if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {
         _sd_print(log_message{
             .time = "00:00",
-            .level = level.to_string(),
+            .level = level,
             .message = final_string,
             .source = source,
             .description = "",
@@ -120,7 +120,7 @@ pub fn log(args: anytype) void {
 
 const log_message = struct {
     time: []const u8,
-    level: []const u8,
+    level: sd_log_level,
     message: []const u8,
     source: ?std.builtin.SourceLocation,
     description: ?[]const u8,
@@ -136,10 +136,12 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s}\n", .{
+    std.io.getStdOut().writer().print("{s} {s}{s}{s}{s}{s} {s}\n", .{
         msg.time,
         _SD_EFF_ENBOLDEN,
-        msg.level,
+        msg.level.colour(),
+        msg.level.to_string(),
+        _SD_COL_WHITE,
         _SD_EFF_NO_ENBOLDEN,
         msg.message,
     }) catch |e| {
