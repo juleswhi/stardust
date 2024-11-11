@@ -17,9 +17,9 @@ pub const sd_log_level = enum(u8) {
 
     pub fn colour(self: *const sd_log_level) []const u8 {
         return switch (self.*) {
-            .debug => "\x1b[38;5;91m",
-            .info => "\x1b[94m",
-            .err => "\x1b[96m",
+            .info => "\x1b[38;5;2m",
+            .debug => "\x1b[38;5;12m",
+            .err => "\x1b[38;5;3m",
             .fatal => "\x1b[38;5;1m",
         };
     }
@@ -137,14 +137,16 @@ const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
     if(msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n--> {s} {s} {}:{}\n", .{
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n\t--> {s}{s}{s} {s} {}:{}\n", .{
             _SD_EFF_ENBOLDEN,
             msg.level.colour(),
             msg.level.to_string(),
             _SD_COL_WHITE,
             _SD_EFF_NO_ENBOLDEN,
             msg.message,
+            _SD_EFF_ITALICS,
             s.file,
+            _SD_EFF_NO_ITALICS,
             s.fn_name,
             s.line,
             s.column
