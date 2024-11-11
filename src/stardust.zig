@@ -48,7 +48,7 @@ pub fn sd_setup(args: struct {
     }
 
     SD_CONFIG.alloc = args.alloc;
-    SD_CONFIG.stdout = std.io.getStdOut().writer();
+    SD_CONFIG.stdout = null;
 }
 
 pub fn log(args: anytype) void {
@@ -136,7 +136,7 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    SD_CONFIG.sdout.?.print("{s}{s}{s}{s}{s}\n", .{
+    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s}\n", .{
         msg.time,
         _SD_EFF_ENBOLDEN,
         msg.level,
