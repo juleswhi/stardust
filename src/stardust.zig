@@ -61,6 +61,9 @@ pub fn log(args: anytype) void {
 
     const args_type = @TypeOf(args);
 
+    var description = std.ArrayList([]const u8).init(SD_CONFIG.alloc.?);
+    defer description.deinit();
+
     var level: sd_log_level = .debug;
     var source: ?std.builtin.SourceLocation = null;
 
@@ -68,14 +71,20 @@ pub fn log(args: anytype) void {
         const field_value = @field(args, field.name);
         const field_type = @TypeOf(field_value);
         if (isZigString(field_type)) {
-            string.appendSlice(field_value) catch |e| {
-                std.debug.panic("Could not append slice: {}", .{e});
-            };
-            string.appendSlice(" ") catch |e| {
-                std.debug.panic("Could not append slice: {}", .{e});
-            };
+            if (std.mem.contains(u8, field_value, "|>")) {
+                description.append(field_value) catch |e| {
+                    std.debug.panic("Could not append slice: {}", .{e});
+                };
+            } else {
+                string.appendSlice(field_value) catch |e| {
+                    std.debug.panic("Could not append slice: {}", .{e});
+                };
+                string.appendSlice(" ") catch |e| {
+                    std.debug.panic("Could not append slice: {}", .{e});
+                };
+            }
         } else if (isZigInt(field_type)) {
-            var buf: [32]u8 = undefined;
+            var buf: [64]u8 = undefined;
             _ = std.fmt.bufPrint(&buf, "{}", .{field_value}) catch "";
             string.appendSlice(&buf) catch {};
             string.appendSlice(" ") catch {};
@@ -106,7 +115,7 @@ pub fn log(args: anytype) void {
             .level = level,
             .message = final_string,
             .source = source,
-            .description = "",
+            .description = description.toOwnedSlice() catch [][]const u8{},
         });
     }
 }
@@ -123,7 +132,7 @@ const log_message = struct {
     level: sd_log_level,
     message: []const u8,
     source: ?std.builtin.SourceLocation,
-    description: ?[]const u8,
+    description: ?[][]const u8,
 };
 
 const _SD_COL_LIGHT_PINK = "\x1b[38;5;13m";
@@ -136,23 +145,8 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    if(msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n", .{
-            _SD_EFF_ENBOLDEN,
-            msg.level.colour(),
-            msg.level.to_string(),
-            _SD_COL_WHITE,
-            _SD_EFF_NO_ENBOLDEN,
-            msg.message,
-            _SD_EFF_ITALICS,
-            s.file,
-            _SD_EFF_NO_ITALICS,
-            _SD_EFF_ENBOLDEN,
-            s.fn_name,
-            _SD_EFF_NO_ENBOLDEN,
-            s.line,
-            s.column
-        }) catch |e| {
+    if (msg.source) |s| {
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n", .{ _SD_EFF_ENBOLDEN, msg.level.colour(), msg.level.to_string(), _SD_COL_WHITE, _SD_EFF_NO_ENBOLDEN, msg.message, _SD_EFF_ITALICS, s.file, _SD_EFF_NO_ITALICS, _SD_EFF_ENBOLDEN, s.fn_name, _SD_EFF_NO_ENBOLDEN, s.line, s.column }) catch |e| {
             std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
         };
         return;
