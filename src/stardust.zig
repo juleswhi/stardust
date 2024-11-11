@@ -8,10 +8,10 @@ pub const sd_log_level = enum(u8) {
 
     pub fn to_string(self: *const sd_log_level) []const u8 {
         return switch (self.*) {
-            .info => "info",
-            .debug => "debug",
-            .err => "err",
-            .fatal => "fatal",
+            .info => "INF",
+            .debug => "DEB",
+            .err => "ERR",
+            .fatal => "FAT",
         };
     }
 
@@ -103,7 +103,7 @@ pub fn log(args: anytype) void {
     if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {
         _sd_print(log_message{
             .time = "00:00",
-            .level = level,
+            .level = level.to_string(),
             .message = final_string,
             .source = source,
             .description = "",
