@@ -115,7 +115,7 @@ pub fn log(args: anytype) void {
             .level = level,
             .message = final_string,
             .source = source,
-            .description = description.toOwnedSlice() catch [][]const u8{},
+            .description = description.toOwnedSlice() catch null,
         });
     }
 }
