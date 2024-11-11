@@ -134,7 +134,7 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    SD_CONFIG.sdout.print("{s}{s}{s}{s}{s}\n", .{
+    SD_CONFIG.sdout.?.print("{s}{s}{s}{s}{s}\n", .{
         msg.time,
         _SD_EFF_ENBOLDEN,
         msg.level,
