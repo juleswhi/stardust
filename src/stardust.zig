@@ -95,7 +95,7 @@ pub fn log(args: anytype) void {
     }
 
     if (string.items.len == 0) {
-        try string.appendSlice("!");
+        string.appendSlice("!") catch std.debug.print("[[stardust]] could not log err", .{});
     }
 
     const final_string = string.toOwnedSlice() catch "";
