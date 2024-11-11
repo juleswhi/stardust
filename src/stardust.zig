@@ -93,7 +93,7 @@ pub fn log(args: anytype) void {
     }
 
     if (string.items.len == 0) {
-        string.appendSlice("!");
+        try string.appendSlice("!");
     }
 
     const final_string = string.toOwnedSlice() catch "";
