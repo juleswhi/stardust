@@ -35,7 +35,7 @@ var SD_CONFIG = _sd_global_config{
 const _sd_global_config = struct {
     alloc: ?std.mem.Allocator,
     level: sd_log_level,
-    stdout: ?std.io.Writer,
+    stdout: ?std.io.AnyWriter,
 };
 
 // Setup Stardust allocator and other configuration
@@ -46,6 +46,7 @@ pub fn sd_setup(args: struct {
     if (args.level) |l| {
         SD_CONFIG.level = l;
     }
+
     SD_CONFIG.alloc = args.alloc;
     SD_CONFIG.stdout = std.io.getStdOut().writer();
 }
