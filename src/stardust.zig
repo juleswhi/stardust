@@ -49,13 +49,14 @@ pub fn log(args: anytype) void {
     if (SD_CONFIG.alloc == null) {
         std.debug.print("Stardust has not been initialised. Please call sd_setup()", .{});
     }
+
     var string = std.ArrayList(u8).init(SD_CONFIG.alloc.?);
     defer string.deinit();
 
     const args_type = @TypeOf(args);
 
     var level: sd_log_level = .debug;
-    var source: std.builtin.SourceLocation = undefined;
+    var source: ?std.builtin.SourceLocation = null;
 
     inline for (@typeInfo(args_type).Struct.fields) |field| {
         const field_value = @field(args, field.name);
@@ -93,7 +94,15 @@ pub fn log(args: anytype) void {
 
     const final_string = string.toOwnedSlice() catch "";
 
-    if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {}
+    if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {
+        _sd_print(log_message{
+            .time = "00:00",
+            .level = level,
+            .message = final_string,
+            .source = source,
+            .description = "",
+        });
+    }
 }
 
 // HH:MM DEBU msg
@@ -107,10 +116,7 @@ const log_message = struct {
     time: []const u8,
     level: []const u8,
     message: []const u8,
-    source_file: ?[]const u8,
-    source_fn: ?[]const u8,
-    source_line: ?[]const u8,
-    source_column: ?[]const u8,
+    source: ?std.builtin.SourceLocation,
     description: ?[]const u8,
 };
 
@@ -124,7 +130,13 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    SD_CONFIG.sdout.print("{s}Example{s}", .{ _SD_EFF_ITALICS, _SD_EFF_NO_ITALICS });
+    SD_CONFIG.sdout.print("{s}{s}{s}{s}{s}\n", .{
+        msg.time,
+        _SD_EFF_ENBOLDEN,
+        msg.level,
+        _SD_EFF_NO_ENBOLDEN,
+        msg.message,
+    });
 }
 
 inline fn isZigInt(comptime T: type) bool {
