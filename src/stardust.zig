@@ -112,7 +112,7 @@ pub fn log(args: anytype) void {
 }
 
 // HH:MM DEBU msg
-// --> File Line Column
+// --> File fn :: Line Column
 // | More
 // | Information
 // | Goes
@@ -136,8 +136,34 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    std.io.getStdOut().writer().print("{s} {s}{s}{s}{s}{s} {s}\n", .{
-        msg.time,
+    var file = "";
+    var func = "";
+    var line = "";
+    var column = "";
+
+    if(msg.source) |s| {
+        file = s.file;
+        func = s.func;
+        line = s.line;
+        column = s.column;
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n--> {s} {s} {s}:{s}\n", .{
+            _SD_EFF_ENBOLDEN,
+            msg.level.colour(),
+            msg.level.to_string(),
+            _SD_COL_WHITE,
+            _SD_EFF_NO_ENBOLDEN,
+            msg.message,
+            s.file,
+            s.fn_name,
+            s.line,
+            s.column
+        }) catch |e| {
+            std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
+        };
+        return;
+    }
+
+    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n", .{
         _SD_EFF_ENBOLDEN,
         msg.level.colour(),
         msg.level.to_string(),
