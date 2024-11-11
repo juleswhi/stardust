@@ -79,7 +79,7 @@ pub fn log(args: anytype) void {
             _ = std.fmt.bufPrint(&buf, "{}", .{field_value}) catch "";
             string.appendSlice(&buf) catch {};
             string.appendSlice(" ") catch {};
-        } else if (field_type == @typeInfo(std.builtin.SourceLocation).Type) {
+        } else if (field_type == std.builtin.SourceLocation) {
             source = field_value;
         } else if (field_type == sd_log_level) {
             level = field_value;
