@@ -31,10 +31,11 @@ var SD_CONFIG = _sd_global_config{
     .level = .info,
     .stdout = null,
 };
+
 const _sd_global_config = struct {
     alloc: ?std.mem.Allocator,
     level: sd_log_level,
-    stdout: ?std.io.AnyWriter,
+    stdout: ?std.io.Writer,
 };
 
 // Setup Stardust allocator and other configuration
