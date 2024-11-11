@@ -142,7 +142,9 @@ fn _sd_print(msg: log_message) void {
         msg.level,
         _SD_EFF_NO_ENBOLDEN,
         msg.message,
-    });
+    }) catch |e| {
+        std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
+    };
 }
 
 inline fn isZigInt(comptime T: type) bool {
