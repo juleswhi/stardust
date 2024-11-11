@@ -87,15 +87,13 @@ pub fn log(args: anytype) void {
         }
     }
 
-
-    if(string.items.len == 0) {
+    if (string.items.len == 0) {
         string.appendSlice("!");
     }
 
     const final_string = string.toOwnedSlice() catch "";
 
-    if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {
-    }
+    if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {}
 }
 
 // HH:MM DEBU msg
@@ -126,7 +124,7 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    SD_CONFIG.sdout.print("{s}Example{s}", .{_SD_EFF_ITALICS, _SD_EFF_NO_ITALICS});
+    SD_CONFIG.sdout.print("{s}Example{s}", .{ _SD_EFF_ITALICS, _SD_EFF_NO_ITALICS });
 }
 
 inline fn isZigInt(comptime T: type) bool {
