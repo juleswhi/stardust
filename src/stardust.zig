@@ -46,7 +46,7 @@ pub fn sd_setup(args: struct {
         SD_CONFIG.level = l;
     }
     SD_CONFIG.alloc = args.alloc;
-    SD_CONFIG.sdout = std.io.getStdOut().writer();
+    SD_CONFIG.stdout = std.io.getStdOut().writer();
 }
 
 pub fn log(args: anytype) void {
