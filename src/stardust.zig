@@ -136,16 +136,7 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-    var file = "";
-    var func = "";
-    var line = "";
-    var column = "";
-
     if(msg.source) |s| {
-        file = s.file;
-        func = s.func;
-        line = s.line;
-        column = s.column;
         std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n--> {s} {s} {s}:{s}\n", .{
             _SD_EFF_ENBOLDEN,
             msg.level.colour(),
