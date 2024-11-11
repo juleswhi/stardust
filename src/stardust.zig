@@ -26,11 +26,15 @@ pub const sd_log_level = enum(u8) {
 };
 
 // Global config of Stardust
-var SD_CONFIG = _sd_global_config{ .alloc = null, .level = .info };
+var SD_CONFIG = _sd_global_config{
+    .alloc = null,
+    .level = .info,
+    .stdout = null,
+};
 const _sd_global_config = struct {
     alloc: ?std.mem.Allocator,
     level: sd_log_level,
-    sdout: std.io.AnyWriter,
+    sdout: ?std.io.AnyWriter,
 };
 
 // Setup Stardust allocator and other configuration
