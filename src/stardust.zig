@@ -137,7 +137,7 @@ const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
     if(msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n\t--> {s}{s}{s} {s} {}:{}\n", .{
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n\t--> {s}{s}{s} {s}{s}{s} {}:{}\n", .{
             _SD_EFF_ENBOLDEN,
             msg.level.colour(),
             msg.level.to_string(),
@@ -147,7 +147,9 @@ fn _sd_print(msg: log_message) void {
             _SD_EFF_ITALICS,
             s.file,
             _SD_EFF_NO_ITALICS,
+            _SD_EFF_ENBOLDEN,
             s.fn_name,
+            _SD_EFF_NO_ENBOLDEN,
             s.line,
             s.column
         }) catch |e| {
