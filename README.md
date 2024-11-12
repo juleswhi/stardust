@@ -6,6 +6,8 @@ Beautiful Zig Logging Library
 
 </div>
 
+![stardust](https://github.com/user-attachments/assets/f5465e54-5163-4a8c-8593-47c6cfaadf8d)
+
 ## Install
 
 To use **Stardust**, run the following command to add it to your `build.zig.zon`
