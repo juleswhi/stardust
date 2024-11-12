@@ -8,7 +8,7 @@ Beautiful Zig Logging Library
 
 ## Install
 
-To add **Stardust** to your `build.zig.zon`
+To use **Stardust**, run the following command to add it to your `build.zig.zon`
 
 ```sh
 zig fetch --save git+https://github.com/juleswhi/stardust.git#main
