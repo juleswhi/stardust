@@ -153,9 +153,10 @@ fn _sd_print(msg: log_message) void {
                 std.debug.print("Could not properly concat memory", .{});
             };
         }
-
+        std.debug.print("description exists", .{});
     } else {
         desc = null;
+        std.debug.print("description doesnt exist", .{});
     }
 
     if (msg.source) |s| {
@@ -174,7 +175,7 @@ fn _sd_print(msg: log_message) void {
             _SD_EFF_NO_ENBOLDEN,
             s.line,
             s.column,
-            desc orelse "",
+            desc orelse "no desc",
         }) catch |e| {
             std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
         };
@@ -188,7 +189,7 @@ fn _sd_print(msg: log_message) void {
         _SD_COL_WHITE,
         _SD_EFF_NO_ENBOLDEN,
         msg.message,
-        desc orelse "",
+        desc orelse "no desc",
     }) catch |e| {
         std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
     };
