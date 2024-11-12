@@ -145,12 +145,11 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
-
     var desc: ?[]const u8 = "";
 
-    if(msg.description) |d| {
-        for(d) |line| {
-            std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{desc.?, "\n", "  |> ", line }) catch "";
+    if (msg.description) |d| {
+        for (d) |line| {
+            std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{ desc.?, "\n", "  |> ", line }) catch {};
         }
     } else {
         desc = null;
