@@ -53,14 +53,13 @@ To log some data, do the following:
     - .fatal
 
 ```zig
-sd.log(.{ "This is a debug", "&example description", "&another description", @src(), .debug });
+sd.log(.{ "This is a debug", "&example description", @src(), .debug });
 ```
 
 ```sh
 DEB This is a debug
-  --> src/main.zig main 10:88
+  --> src/main.zig main 01:01
   |> example description
-  |> another description
 ```
 
 If you want a simple log, you only need some strings
