@@ -153,16 +153,13 @@ fn _sd_print(msg: log_message) void {
                 std.debug.print("Could not properly concat memory", .{});
             };
         }
-        _ = std.mem.concat(SD_CONFIG.alloc.?, u8, &[2][]const u8{ desc.?, "\n", }) catch {
-            std.debug.print("Could not properly concat memory", .{});
-        };
 
     } else {
         desc = null;
     }
 
     if (msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n{s}\n", .{
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n{s}", .{
             _SD_EFF_ENBOLDEN,
             msg.level.colour(),
             msg.level.to_string(),
@@ -184,7 +181,7 @@ fn _sd_print(msg: log_message) void {
         return;
     }
 
-    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n{s}\n", .{
+    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n{s}", .{
         _SD_EFF_ENBOLDEN,
         msg.level.colour(),
         msg.level.to_string(),
