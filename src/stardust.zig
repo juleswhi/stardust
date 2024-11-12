@@ -160,7 +160,7 @@ fn _sd_print(msg: log_message) void {
     }
 
     if (msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}{s}", .{
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}{s}\n", .{
             _SD_EFF_ENBOLDEN,
             msg.level.colour(),
             msg.level.to_string(),
@@ -182,7 +182,7 @@ fn _sd_print(msg: log_message) void {
         return;
     }
 
-    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}{s}", .{
+    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}{s}\n", .{
         _SD_EFF_ENBOLDEN,
         msg.level.colour(),
         msg.level.to_string(),
