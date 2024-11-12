@@ -42,7 +42,7 @@ try sd.sd_setup(some_alloc, default_log_level);
 To log some data, do the following:
 
 - Strings will be output a concatonated line
-- Strings beginning with a `!` will be a 'description'
+- Strings beginning with a `&` will be a 'description'
 - To add trace details include `@src()`
 - Finally, choose the log level with a one of the following:
     - .info
@@ -51,7 +51,7 @@ To log some data, do the following:
     - .fatal
 
 ```zig
-sd.log(.{ "This is a debug", "!example description", "!another description", @src(), .debug });
+sd.log(.{ "This is a debug", "&example description", "&another description", @src(), .debug });
 ```
 
 ```sh
