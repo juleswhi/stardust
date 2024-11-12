@@ -153,14 +153,14 @@ fn _sd_print(msg: log_message) void {
 
     if (msg.description) |d| {
         for (d) |line| {
-            desc = std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{ desc.?, "\n", "  ", line }) catch "";
+            desc = std.mem.concat(SD_CONFIG.alloc.?, u8, &[5][]const u8{ desc.?, "\n", "  ", line, "\n" }) catch "";
         }
     } else {
         desc = null;
     }
 
     if (msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n{s}", .{
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}{s}", .{
             _SD_EFF_ENBOLDEN,
             msg.level.colour(),
             msg.level.to_string(),
@@ -182,7 +182,7 @@ fn _sd_print(msg: log_message) void {
         return;
     }
 
-    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n{s}", .{
+    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}{s}", .{
         _SD_EFF_ENBOLDEN,
         msg.level.colour(),
         msg.level.to_string(),
