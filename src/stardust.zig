@@ -153,7 +153,7 @@ fn _sd_print(msg: log_message) void {
                 std.debug.print("Could not properly concat memory", .{});
             };
         }
-        std.debug.print("description: {s}\n", .{desc});
+        std.debug.print("description: {s}\n", .{desc.?});
     } else {
         desc = null;
         std.debug.print("description doesnt exist", .{});
