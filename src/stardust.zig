@@ -145,8 +145,35 @@ const _SD_EFF_ENBOLDEN = "\x1b[1m";
 const _SD_EFF_NO_ENBOLDEN = "\x1b[22m";
 
 fn _sd_print(msg: log_message) void {
+
+    var desc: ?[]const u8 = "";
+
+    if(msg.description) |d| {
+        for(d) |line| {
+            std.mem.concat(SD_CONFIG.alloc, u8, &[]const u8[4]{desc, "\n", "  |> ", line });
+        }
+    } else {
+        desc = null;
+    }
+
     if (msg.source) |s| {
-        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n", .{ _SD_EFF_ENBOLDEN, msg.level.colour(), msg.level.to_string(), _SD_COL_WHITE, _SD_EFF_NO_ENBOLDEN, msg.message, _SD_EFF_ITALICS, s.file, _SD_EFF_NO_ITALICS, _SD_EFF_ENBOLDEN, s.fn_name, _SD_EFF_NO_ENBOLDEN, s.line, s.column }) catch |e| {
+        std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n  --> {s}{s}{s} {s}{s}{s} {}:{}\n", .{
+            _SD_EFF_ENBOLDEN,
+            msg.level.colour(),
+            msg.level.to_string(),
+            _SD_COL_WHITE,
+            _SD_EFF_NO_ENBOLDEN,
+            msg.message,
+            _SD_EFF_ITALICS,
+            s.file,
+            _SD_EFF_NO_ITALICS,
+            _SD_EFF_ENBOLDEN,
+            s.fn_name,
+            _SD_EFF_NO_ENBOLDEN,
+            s.line,
+            s.column,
+            desc orelse "",
+        }) catch |e| {
             std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
         };
         return;
@@ -159,6 +186,7 @@ fn _sd_print(msg: log_message) void {
         _SD_COL_WHITE,
         _SD_EFF_NO_ENBOLDEN,
         msg.message,
+        desc orelse "",
     }) catch |e| {
         std.debug.print("[[stardust]] has encountered a stdout err, {any}", .{e});
     };
