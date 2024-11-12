@@ -22,7 +22,7 @@ const stardust = b.dependency("stardust", .{
     .optimize = optimize,
 });
 
-exe.root_module.addImport("stardust", stardust.module("stardust"));
+exe.root_module.addImport("sd", stardust.module("stardust"));
 ```
 
 ## Usage
@@ -30,18 +30,24 @@ exe.root_module.addImport("stardust", stardust.module("stardust"));
 Include **Stardust** in your project like this:
 
 ```zig
-const sd = @import("stardust");
+const sd = @import("sd");
 ```
 
 Initiate the logging system
 
 ```zig
-try stardust.sd_init_log(null, null);
+try sd.sd_setup(some_alloc, default_log_level);
 ```
 
 To log some data, do the following:
 
 ```zig
-stardust.sdlog(@src(), .{"Hello, World!", 69, .debug});
-// Hello, World! 69
+stardust.log(.{ "This is a debug", "!example description", "!another description", .debug });
+```
+
+```sh
+DEB This is a debug
+  --> src/main.zig main 10:88
+  |> example description
+  |> another description
 ```
