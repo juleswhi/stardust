@@ -108,6 +108,10 @@ pub fn log(args: anytype) void {
     }
 
     const final_string = string.toOwnedSlice() catch "";
+    var desc: ?[][]const u8  = description.toOwnedSlice() catch null;
+    if(desc.?.len == 0) {
+        desc = null;
+    }
 
     if (@intFromEnum(level) >= @intFromEnum(SD_CONFIG.level)) {
         _sd_print(log_message{
@@ -115,7 +119,7 @@ pub fn log(args: anytype) void {
             .level = level,
             .message = final_string,
             .source = source,
-            .description = description.toOwnedSlice() catch null,
+            .description = desc,
         });
     }
 }
