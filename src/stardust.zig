@@ -180,7 +180,7 @@ fn _sd_print(msg: log_message) void {
         return;
     }
 
-    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s}\n", .{
+    std.io.getStdOut().writer().print("{s}{s}{s}{s}{s} {s}\n{s}\n", .{
         _SD_EFF_ENBOLDEN,
         msg.level.colour(),
         msg.level.to_string(),
