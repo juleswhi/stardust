@@ -153,6 +153,10 @@ fn _sd_print(msg: log_message) void {
                 std.debug.print("Could not properly concat memory", .{});
             };
         }
+        _ = std.mem.concat(SD_CONFIG.alloc.?, u8, &[2][]const u8{ desc.?, "\n", }) catch {
+            std.debug.print("Could not properly concat memory", .{});
+        };
+
     } else {
         desc = null;
     }
