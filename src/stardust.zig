@@ -153,9 +153,7 @@ fn _sd_print(msg: log_message) void {
 
     if (msg.description) |d| {
         for (d) |line| {
-            desc = std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{ desc.?, "\n", "  ", line }) catch {
-                std.debug.print("Could not properly concat memory", .{});
-            };
+            desc = std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{ desc.?, "\n", "  ", line }) catch "";
         }
     } else {
         desc = null;
