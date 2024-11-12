@@ -71,7 +71,7 @@ pub fn log(args: anytype) void {
         const field_value = @field(args, field.name);
         const field_type = @TypeOf(field_value);
         if (isZigString(field_type)) {
-            if (std.mem.containsAtLeast(u8, field_value, 1, "|>")) {
+            if (std.mem.containsAtLeast(u8, field_value, 1, ">")) {
                 description.append(field_value) catch |e| {
                     std.debug.panic("Could not append slice: {}", .{e});
                 };
@@ -153,7 +153,7 @@ fn _sd_print(msg: log_message) void {
 
     if (msg.description) |d| {
         for (d) |line| {
-            desc = std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{ desc.?, "\n", "  ", line }) catch "";
+            desc = std.mem.concat(SD_CONFIG.alloc.?, u8, &[4][]const u8{ desc.?, "\n", "  ", line[1..] }) catch "";
         }
     } else {
         desc = null;
