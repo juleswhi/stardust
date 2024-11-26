@@ -92,13 +92,16 @@ pub fn log(args: anytype) void {
             source = field_value;
         } else if (field_type == sd_log_level) {
             level = field_value;
-        } else {
+        } else if (field_type) {
             level = switch (field_value) {
                 .info => .info,
                 .debug => .debug,
                 .err => .err,
                 .fatal => .fatal,
-                else => {},
+                else => {
+                    log(.{"Please use the right types in sd.log"});
+                    return;
+                },
             };
         }
     }
@@ -108,8 +111,8 @@ pub fn log(args: anytype) void {
     }
 
     const final_string = string.toOwnedSlice() catch "";
-    var desc: ?[][]const u8  = description.toOwnedSlice() catch null;
-    if(desc.?.len == 0) {
+    var desc: ?[][]const u8 = description.toOwnedSlice() catch null;
+    if (desc.?.len == 0) {
         desc = null;
     }
 
