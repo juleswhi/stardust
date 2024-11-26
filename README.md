@@ -4,9 +4,9 @@
 
 Beautiful Zig Logging Library
 
-</div>
+![STARDUST_LOGO(1)](https://github.com/user-attachments/assets/9ee33089-3eee-40ac-9792-16c445e9f066)
 
-![stardust](https://github.com/user-attachments/assets/f5465e54-5163-4a8c-8593-47c6cfaadf8d)
+</div>
 
 ## Install
 
@@ -28,6 +28,8 @@ exe.root_module.addImport("sd", stardust.module("stardust"));
 ```
 
 ## Usage
+
+![stardust](https://github.com/user-attachments/assets/f5465e54-5163-4a8c-8593-47c6cfaadf8d)
 
 Include **Stardust** in your project like this:
 
