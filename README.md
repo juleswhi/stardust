@@ -4,8 +4,6 @@
 
 Beautiful Zig Logging Library
 
-![STARDUST_LOGO(1)](https://github.com/user-attachments/assets/9ee33089-3eee-40ac-9792-16c445e9f066)
-
 </div>
 
 ## Install
