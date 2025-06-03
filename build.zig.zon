@@ -1,6 +1,8 @@
 .{
-    .name = "stardust",
+    .name = .stardust,
     .version = "0.1.0",
+
+    .fingerprint = 0xaa64878db18592d0,
 
     .dependencies = .{},
 
